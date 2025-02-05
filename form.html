@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #d84fdd, #215096);
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #0d4602;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #ff4f4f;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Pizza Order Form</h2>
+        <form id="pizzaOrderForm">
+            <input type="text" id="name" placeholder="Enter your name" required>
+            <span class="error" id="nameError"></span>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <span class="error" id="emailError"></span>
+            <input type="tel" id="phone" placeholder="Enter your phone number" required>
+            <input type="text" id="address" placeholder="Enter your delivery address" required>
+            <select id="pizzaSize" required>
+                <option value="">Select Pizza Size</option>
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+            </select>
+            <select id="crust" required>
+                <option value="">Select Crust Type</option>
+                <option value="Thin">Thin Crust</option>
+                <option value="Thick">Thick Crust</option>
+                <option value="Stuffed">Stuffed Crust</option>
+            </select>
+            <select multiple id="toppings" required>
+                <option value="Cheese">Cheese</option>
+                <option value="Pepperoni">Pepperoni</option>
+                <option value="Mushrooms">Mushrooms</option>
+                <option value="Olives">Olives</option>
+                <option value="Onions">Onions</option>
+                <option value="Sausage">Sausage</option>
+            </select>
+            <textarea id="instructions" placeholder="Additional instructions"></textarea>
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+    
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <p>Order placed successfully!</p>
+            <button onclick="closeModal()">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('pizzaOrderForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let isValid = true;
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let phone = document.getElementById('phone').value;
+            let address = document.getElementById('address').value;
+            let size = document.getElementById('pizzaSize').value;
+            let crust = document.getElementById('crust').value;
+            let toppings = document.getElementById('toppings').selectedOptions.length;
+            
+            if (name.length < 3) {
+                document.getElementById('nameError').textContent = "Name must be at least 3 characters";
+                isValid = false;
+            } else {
+                document.getElementById('nameError').textContent = "";
+            }
+            
+            if (!email.includes('@')) {
+                document.getElementById('emailError').textContent = "Enter a valid email";
+                isValid = false;
+            } else {
+                document.getElementById('emailError').textContent = "";
+            }
+            
+            if (phone.length < 10) {
+                alert("Please enter a valid phone number");
+                isValid = false;
+            }
+            
+            if (address.length < 5) {
+                alert("Please enter a valid address");
+                isValid = false;
+            }
+            
+            if (size === "" || crust === "" || toppings === 0) {
+                alert("Please select pizza size, crust type, and at least one topping");
+                isValid = false;
+            }
+            
+            if (isValid) {
+                document.getElementById('orderModal').style.display = 'flex';
+            }
+        });
+        
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
